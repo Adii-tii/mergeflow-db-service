@@ -16,10 +16,12 @@ const PORT = process.env.PORT;
 
 // Middleware
 app.use(helmet());
-app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials : true
-}));
+// CORS is handled globally at the Service Router/Gateway level.
+// Enabling it here causes duplicate CORS headers in proxied requests, causing browser CORS violations.
+// app.use(cors({
+//   origin: process.env.CLIENT_URL,
+//   credentials : true
+// }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
