@@ -14,7 +14,7 @@ class UserService {
   async findUserByGithubId(githubId) {
     try {
       return await User.findOne({
-        githubId: String(githubId)
+        githubId: Number(githubId)
       }).populate('repositories');
     } catch (error) {
       throw new Error(`Error finding user: ${error.message}`);
@@ -32,7 +32,7 @@ class UserService {
   async updateUser(githubId, updateData) {
     try {
       return await User.findOneAndUpdate(
-        { githubId },
+        { githubId: Number(githubId) },
         updateData,
         { new: true, runValidators: true }
       );
@@ -43,7 +43,7 @@ class UserService {
 
   async deleteUser(githubId) {
     try {
-      return await User.findOneAndDelete({ githubId });
+      return await User.findOneAndDelete({ githubId: Number(githubId) });
     } catch (error) {
       throw new Error(`Error deleting user: ${error.message}`);
     }
@@ -60,7 +60,7 @@ class UserService {
   async addRepositoryToUser(githubId, repositoryId) {
     try {
       return await User.findOneAndUpdate(
-        { githubId },
+        { githubId: Number(githubId) },
         { $addToSet: { repositories: repositoryId } },
         { new: true }
       );
